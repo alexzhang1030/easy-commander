@@ -35,7 +35,8 @@ describe('parse arguments and execute action', () => {
     expect(count).toBe(2)
   })
   test('execute function with params', () => {
-    cli.command('dev').action((args) => {
+    cli.command('dev').action((file, args) => {
+      expect(file).toEqual('foo')
       expect(args).toEqual({
         dev: 'foo'
       })
@@ -44,7 +45,7 @@ describe('parse arguments and execute action', () => {
   })
 })
 
-describe.only('support brackets', () => {
+describe('support brackets', () => {
   const cli = new CLI('foo')
   const processArgs = ['_', '_', '--dev', 'foo']
   test('angle brackets', () => {
@@ -66,7 +67,7 @@ describe.only('support brackets', () => {
     `)
   })
 
-  test.only('required params cannot find should throw an error', () => {
+  test('required params cannot find should throw an error', () => {
     expect(() => {
       cli.command('dev <file>').action((file, args) => {
         expect(file).toBe('foo')
